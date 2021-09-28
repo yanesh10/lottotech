@@ -1,14 +1,14 @@
-package mu.yanesh.lottoextractor.services;
+package mu.yanesh.lottoextractor.extractor;
 
 import lombok.extern.slf4j.Slf4j;
 import mu.yanesh.lottoextractor.models.Ticket;
+import mu.yanesh.lottoextractor.utils.CalendarUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -21,22 +21,31 @@ public class Extractor implements IExtractor{
 
     private static final String NUM_GAGNANTS = "num-gagnants";
     private static final String SEPARATOR = ",";
+    private static final String MOZILLA = "Mozilla";
+
     @Value("${lottotech.tirage.url}")
     private String rootUrl;
 
     @Value("${lottotech.tirage.param}")
     private String queryParam;
 
+    @Override
     public Ticket getTirage(LocalDate date){
         try {
             Document doc = Jsoup.connect(getURL(date.toString()).toString())
-                    .userAgent("Mozilla")
+                    .userAgent(MOZILLA)
                     .get();
             return getResult(doc);
         } catch (IOException e) {
             log.error(e.getMessage());
         }
         return null;
+    }
+
+    @Override
+    public void extract() {
+        List<LocalDate> dates = CalendarUtils.getWeekends(2021);
+        dates.forEach(this::getTirage);
     }
 
     private Ticket getResult(Document doc) {
@@ -47,10 +56,6 @@ public class Extractor implements IExtractor{
                 resultats.get(5));
     }
 
-    /**
-     * @param date
-     * @return
-     */
     private StringBuilder getURL(String date) {
         StringBuilder apiEndpoint = new StringBuilder(rootUrl);
         apiEndpoint.append("?");
