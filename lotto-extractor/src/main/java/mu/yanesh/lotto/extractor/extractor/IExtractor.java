@@ -9,4 +9,5 @@ public interface IExtractor {
     Ticket getTirage(LocalDate date);
 
     void extract();
+
 }

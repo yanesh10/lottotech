@@ -1,11 +1,14 @@
 package mu.yanesh.lotto.extractor.utils;
 
+import lombok.experimental.UtilityClass;
+
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Year;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@UtilityClass
 public class CalendarUtils {
 
     /*

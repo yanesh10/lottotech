@@ -3,6 +3,8 @@ package mu.yanesh.lotto.extractor.models;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 public class Ticket {
@@ -12,4 +14,5 @@ public class Ticket {
     private final int number4;
     private final int number5;
     private final int number6;
+    private final LocalDate tirageDate;
 }

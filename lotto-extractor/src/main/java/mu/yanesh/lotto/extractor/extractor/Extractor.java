@@ -65,8 +65,10 @@ public class Extractor implements IExtractor {
                 .map(String::trim)
                 .map(Integer::valueOf)
                 .collect(Collectors.toList());
+
+        doc.getElementsByClass("date-display-single").get(0).attributes();
         return new Ticket(resultats.get(0), resultats.get(1), resultats.get(2), resultats.get(3), resultats.get(4),
-                resultats.get(5));
+                resultats.get(5), LocalDate.now());
     }
 
     private StringBuilder getURL(String date) {
