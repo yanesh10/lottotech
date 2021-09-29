@@ -3,3 +3,7 @@ spring:
     name: lotto-persister
   profiles:
     active: activemq, mongodb-local
+
+messaging:
+  ticket-receiver:
+    queue-name: VirtualTopic.mu.yanesh.messaging.ticket.extractor.message
