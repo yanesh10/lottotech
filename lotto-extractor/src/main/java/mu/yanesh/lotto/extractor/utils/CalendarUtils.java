@@ -1,9 +1,8 @@
-package mu.yanesh.lottoextractor.utils;
+package mu.yanesh.lotto.extractor.utils;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Year;
-import java.time.YearMonth;
 import java.util.List;
 import java.util.stream.Collectors;
 

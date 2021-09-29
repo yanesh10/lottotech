@@ -1,10 +1,10 @@
-package mu.yanesh.lottoextractor.extractor;
+package mu.yanesh.lotto.extractor.extractor;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mu.yanesh.lottoextractor.models.Ticket;
-import mu.yanesh.lottoextractor.publish.TicketMessagePublisher;
-import mu.yanesh.lottoextractor.utils.CalendarUtils;
+import mu.yanesh.lotto.extractor.models.Ticket;
+import mu.yanesh.lotto.extractor.publish.TicketMessagePublisher;
+import mu.yanesh.lotto.extractor.utils.CalendarUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Value;

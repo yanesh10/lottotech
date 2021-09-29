@@ -1,4 +1,4 @@
-package mu.yanesh.lottoextractor.config;
+package mu.yanesh.lotto.extractor.config;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.ObjectMapper;

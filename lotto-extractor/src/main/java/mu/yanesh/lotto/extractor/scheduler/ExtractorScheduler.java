@@ -1,8 +1,8 @@
-package mu.yanesh.lottoextractor.scheduler;
+package mu.yanesh.lotto.extractor.scheduler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mu.yanesh.lottoextractor.extractor.IExtractor;
+import mu.yanesh.lotto.extractor.extractor.IExtractor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

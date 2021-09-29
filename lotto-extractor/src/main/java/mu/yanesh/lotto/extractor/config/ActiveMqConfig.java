@@ -1,4 +1,4 @@
-package mu.yanesh.lottoextractor.config;
+package mu.yanesh.lotto.extractor.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Qualifier;

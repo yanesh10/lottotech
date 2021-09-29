@@ -1,4 +1,4 @@
-package mu.yanesh.lottoextractor.models;
+package mu.yanesh.lotto.extractor.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

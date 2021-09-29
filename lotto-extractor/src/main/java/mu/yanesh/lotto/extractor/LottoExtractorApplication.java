@@ -1,4 +1,4 @@
-package mu.yanesh.lottoextractor;
+package mu.yanesh.lotto.extractor;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

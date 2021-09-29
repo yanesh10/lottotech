@@ -1,6 +1,6 @@
-package mu.yanesh.lottoextractor.extractor;
+package mu.yanesh.lotto.extractor.extractor;
 
-import mu.yanesh.lottoextractor.models.Ticket;
+import mu.yanesh.lotto.extractor.models.Ticket;
 
 import java.time.LocalDate;
 

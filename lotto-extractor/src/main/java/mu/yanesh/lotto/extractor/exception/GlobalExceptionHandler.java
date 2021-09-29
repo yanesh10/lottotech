@@ -1,7 +1,7 @@
-package mu.yanesh.lottoextractor.exception;
+package mu.yanesh.lotto.extractor.exception;
 
 import lombok.extern.slf4j.Slf4j;
-import mu.yanesh.lottoextractor.models.ApiError;
+import mu.yanesh.lotto.extractor.models.ApiError;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

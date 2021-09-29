@@ -1,7 +1,7 @@
-package mu.yanesh.lottoextractor.controller;
+package mu.yanesh.lotto.extractor.controller;
 
 import lombok.AllArgsConstructor;
-import mu.yanesh.lottoextractor.extractor.IExtractor;
+import mu.yanesh.lotto.extractor.extractor.IExtractor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

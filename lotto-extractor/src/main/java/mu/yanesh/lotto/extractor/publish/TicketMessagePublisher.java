@@ -1,7 +1,7 @@
-package mu.yanesh.lottoextractor.publish;
+package mu.yanesh.lotto.extractor.publish;
 
 import lombok.extern.slf4j.Slf4j;
-import mu.yanesh.lottoextractor.exception.MissingBeanJmsTemplate;
+import mu.yanesh.lotto.extractor.exception.MissingBeanJmsTemplate;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;

@@ -1,4 +1,4 @@
-package mu.yanesh.lottoextractor.exception;
+package mu.yanesh.lotto.extractor.exception;
 
 public class MissingBeanJmsTemplate extends RuntimeException {
 

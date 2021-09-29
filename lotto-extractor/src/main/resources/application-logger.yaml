@@ -1,4 +1,4 @@
 logging:
   level:
     org.springframework: info
-    mu.yanesh.lottoextractor: debug
+    mu.yanesh.lotto.extractor: debug
