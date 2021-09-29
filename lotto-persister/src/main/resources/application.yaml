@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: lotto-persister
+  profiles:
+    active: activemq, mongodb-local
