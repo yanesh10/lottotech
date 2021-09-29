@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'mu.yanesh'
-version = '0.0.1-SNAPSHOT'
+version = '1.0'
 sourceCompatibility = '11'
 
 configurations {
@@ -28,3 +28,12 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+    classifier "sources"
+}
+
+bootRun.enabled = false
+bootJar.enabled = false
+jar.enabled = true

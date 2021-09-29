@@ -2,9 +2,9 @@ package mu.yanesh.lotto.extractor.extractor;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mu.yanesh.lotto.extractor.models.Ticket;
 import mu.yanesh.lotto.extractor.publish.TicketMessagePublisher;
 import mu.yanesh.lotto.extractor.utils.CalendarUtils;
+import mu.yanesh.lotto.library.models.Ticket;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,7 +42,7 @@ public class Extractor implements IExtractor {
             Document doc = Jsoup.connect(getURL(date.format(DateTimeFormatter.ofPattern(DATE_FORMAT))).toString())
                     .userAgent(MOZILLA)
                     .get();
-            return getResult(doc);
+            return getResult(doc, date);
         } catch (IOException e) {
             log.error(e.getMessage());
         }
@@ -55,7 +55,7 @@ public class Extractor implements IExtractor {
         dates.stream().map(this::getTirage).forEach(publisher::publish);
     }
 
-    private Ticket getResult(Document doc) {
+    private Ticket getResult(Document doc, LocalDate resultDate) {
         List<Integer> resultats = Arrays
                 .stream(Objects.requireNonNull(doc.getElementById(NUM_GAGNANTS))
                         .childNodes().get(0)
@@ -66,9 +66,8 @@ public class Extractor implements IExtractor {
                 .map(Integer::valueOf)
                 .collect(Collectors.toList());
 
-        doc.getElementsByClass("date-display-single").get(0).attributes();
         return new Ticket(resultats.get(0), resultats.get(1), resultats.get(2), resultats.get(3), resultats.get(4),
-                resultats.get(5), LocalDate.now());
+                resultats.get(5), resultDate);
     }
 
     private StringBuilder getURL(String date) {
