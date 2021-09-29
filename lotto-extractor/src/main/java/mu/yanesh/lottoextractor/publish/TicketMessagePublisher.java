@@ -1,22 +1,28 @@
 package mu.yanesh.lottoextractor.publish;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import mu.yanesh.lottoextractor.exception.MissingBeanJmsTemplate;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.support.JmsGatewaySupport;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Slf4j
-@RequiredArgsConstructor
 @Component
-public class TicketMessagePublisher {
+public class TicketMessagePublisher extends JmsGatewaySupport {
 
-    private final JmsTemplate jmsTemplateTopic;
+    @Value("${messaging.ticket-publisher.queue-name}")
+    private String ticketQueue;
 
-    @Value("${messaging.ticket-publisher.topic-name}")
-    private String ticketTopic;
+    public TicketMessagePublisher(@Qualifier("jmsTemplatePersistentQueue") JmsTemplate jmsTemplate) {
+        setJmsTemplate(jmsTemplate);
+    }
 
     public void publish(Object response) {
-        jmsTemplateTopic.convertAndSend(ticketTopic, response);
+        log.trace("Sending Ticket message to JMS Queue {}", ticketQueue);
+        Optional.ofNullable(getJmsTemplate()).orElseThrow(MissingBeanJmsTemplate::new).convertAndSend(ticketQueue, response);
     }
 }

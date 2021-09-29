@@ -35,13 +35,11 @@ public class ActiveMqConfig {
         return converter;
     }
 
-    @Bean("jmsTemplateTopic")
-    JmsTemplate jmsTemplateTopic() {
+    @Bean("jmsTemplatePersistentQueue")
+    public JmsTemplate jmsTemplatePersistentQueue() {
         JmsTemplate jmsTemplate = new JmsTemplate(connectionFactory);
         jmsTemplate.setMessageConverter(messageConverter());
-        jmsTemplate.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
-        jmsTemplate.setExplicitQosEnabled(true);
-        jmsTemplate.setPubSubDomain(true);
+        jmsTemplate.setPubSubDomain(false);
         return jmsTemplate;
     }
 }

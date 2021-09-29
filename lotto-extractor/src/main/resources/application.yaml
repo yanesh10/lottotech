@@ -14,7 +14,7 @@ lottotech:
 
 messaging:
     ticket-publisher:
-        topic-name: VirtualTopic.mu.yanesh.messaging.ticket.extractor.message
+        queue-name: VirtualTopic.mu.yanesh.messaging.ticket.extractor.message
         
 extractor:
     scheduler:
