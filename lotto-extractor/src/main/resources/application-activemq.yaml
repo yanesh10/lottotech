@@ -1,0 +1,8 @@
+
+spring:
+  activemq:
+    user: admin
+    password: b33ri$g00d
+    broker-url: failover:(tcp://localhost:61616)?startupMaxReconnectAttempts=5&jms.prefetchPolicy.all=1&jms.redeliveryPolicy.maximumRedeliveries=2
+    packages:
+      trust-all: true

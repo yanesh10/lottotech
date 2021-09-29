@@ -1,0 +1,22 @@
+spring:
+    application:
+        name: lottotech-extractor
+    profiles:
+        active: activemq, logger
+        
+api:
+    version: 1.0
+        
+lottotech:
+    tirage:
+        url: https://loterienationale.mu/fr/tirages-et-archives
+        param: field_date_du_tirage_value[value][date]
+
+messaging:
+    ticket-publisher:
+        topic-name: VirtualTopic.mu.yanesh.messaging.ticket.extractor.message
+        
+extractor:
+    scheduler:
+        cron: 0 0 * * THU,SUN
+        launch-on-startup: false

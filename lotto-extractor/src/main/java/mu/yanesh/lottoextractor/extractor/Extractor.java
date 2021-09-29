@@ -1,7 +1,9 @@
 package mu.yanesh.lottoextractor.extractor;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mu.yanesh.lottoextractor.models.Ticket;
+import mu.yanesh.lottoextractor.publish.TicketMessagePublisher;
 import mu.yanesh.lottoextractor.utils.CalendarUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -17,11 +20,13 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-public class Extractor implements IExtractor{
+@RequiredArgsConstructor
+public class Extractor implements IExtractor {
 
     private static final String NUM_GAGNANTS = "num-gagnants";
     private static final String SEPARATOR = ",";
     private static final String MOZILLA = "Mozilla";
+    private static final String DATE_FORMAT = "dd+MMM+yyyy";
 
     @Value("${lottotech.tirage.url}")
     private String rootUrl;
@@ -29,10 +34,12 @@ public class Extractor implements IExtractor{
     @Value("${lottotech.tirage.param}")
     private String queryParam;
 
+    private final TicketMessagePublisher publisher;
+
     @Override
-    public Ticket getTirage(LocalDate date){
+    public Ticket getTirage(LocalDate date) {
         try {
-            Document doc = Jsoup.connect(getURL(date.toString()).toString())
+            Document doc = Jsoup.connect(getURL(date.format(DateTimeFormatter.ofPattern(DATE_FORMAT))).toString())
                     .userAgent(MOZILLA)
                     .get();
             return getResult(doc);
@@ -45,13 +52,19 @@ public class Extractor implements IExtractor{
     @Override
     public void extract() {
         List<LocalDate> dates = CalendarUtils.getWeekends(2021);
-        dates.forEach(this::getTirage);
+        dates.stream().map(this::getTirage).forEach(publisher::publish);
     }
 
     private Ticket getResult(Document doc) {
         List<Integer> resultats = Arrays
-                .stream(Objects.requireNonNull(doc.getElementById(NUM_GAGNANTS)).text().replaceAll("\\s", "")
-                        .split(SEPARATOR)).map(Integer::getInteger).collect(Collectors.toList());
+                .stream(Objects.requireNonNull(doc.getElementById(NUM_GAGNANTS))
+                        .childNodes().get(0)
+                        .toString()
+                        .replace("\n", "")
+                        .split(SEPARATOR))
+                .map(String::trim)
+                .map(Integer::valueOf)
+                .collect(Collectors.toList());
         return new Ticket(resultats.get(0), resultats.get(1), resultats.get(2), resultats.get(3), resultats.get(4),
                 resultats.get(5));
     }
