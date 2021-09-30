@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+    id 'com.bmuschko.docker-remote-api' version '4.6.2'
+}
+
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'idea'
+
+group 'mu.yanesh.lotto.activemq'
+version '1.0'
+version = project.findProperty("buildVersion") ?: "${version}.local"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+task getAppVersion {
+    doLast {
+        new File("$projectDir/version.properties").text = "version=$version"
+    }
+}
