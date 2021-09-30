@@ -1,10 +1,12 @@
+import com.bmuschko.gradle.docker.tasks.image.*
+
 plugins {
     id 'java'
     id 'com.bmuschko.docker-remote-api' version '4.6.2'
+//    id 'com.palantir.docker' version '0.22.1'
 }
 
 apply plugin: 'groovy'
-apply plugin: 'maven'
 apply plugin: 'idea'
 
 group 'mu.yanesh.lotto.activemq'
@@ -15,13 +17,55 @@ repositories {
     mavenCentral()
 }
 
+//tasks.register('dockerBuildImage', DockerBuildImage){
+//    inputDir = file('src/main/docker')
+//}
+
+//docker {
+//    name "${project.name}:${project.version}"
+//    files 'src/main/docker'
+//}
+
+docker {
+    url = docker_url
+    if (project.hasProperty("docker_cert_path")) {
+        certPath = new File(project["docker_cert_path"])
+    }
+    registryCredentials {
+        url = docker_registry
+        username = docker_hub_user
+        password = docker_hub_password
+    }
+}
+
+task dockerPrep(type: Copy, dependsOn: [build]) {
+    from "src/main/docker/"
+    into "$buildDir/docker"
+}
+
+task dockerBuild(type: DockerBuildImage, dependsOn: [build, dockerPrep]) {
+    doFirst {
+        println "docker_url: ${docker.url}"
+        println "docker_cert_path: ${docker.certPath}"
+        println "docker_registry: $docker_registry"
+    }
+    inputDir = file("$buildDir/docker")
+    tags.add("yanesh10/${project.name}:${version}")
+}
+
+task dockerPush(type: DockerPushImage, dependsOn: dockerBuild) {
+    imageName = "yanesh10/${project.name}"
+    tag = "${version}"
+}
+
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
 }
 
 test {
-    useJUnitPlatform()
+    doLast {
+        println version
+    }
 }
 
 task getAppVersion {
