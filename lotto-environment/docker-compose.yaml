@@ -1,14 +1,15 @@
-version: '1'
+version: '3'
 services:
-  activemq: ./yanesh10/lotto-activemq:1.0.local
-  ports:
+  activemq:
+    image: yanesh10/lotto-activemq:1.0.local
+    ports:
     - 8161:8161
     - 61616:61616
     - 61613:61613
     
   mongodb:
     image: mongo:3.6.2
-    port:
-      - 27017-27019:27017:27019
+    ports:
+      - 27017-27019:27017-27019
     volumes:
       - ./mongo-data:/data/mongo
