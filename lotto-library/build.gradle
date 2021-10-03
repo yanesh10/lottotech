@@ -1,11 +1,17 @@
 plugins {
     id 'org.springframework.boot' version '2.5.5'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE' apply false
     id 'java'
+    id 'maven-publish'
 }
 
+apply plugin: 'java'
+apply plugin: 'java-library'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'maven-publish'
+
 group = 'mu.yanesh'
-version = '1.0'
+version = '1.0.0'
 sourceCompatibility = '11'
 
 configurations {
@@ -21,6 +27,10 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.12.5'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.5'
+    implementation 'com.fasterxml.jackson.module:jackson-module-parameter-names:2.12.5'
+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -37,4 +47,15 @@ task sourceJar(type: Jar) {
 
 bootRun.enabled = false
 bootJar.enabled = false
-jar.enabled = true
+jar {
+    enabled = true
+    archiveClassifier = ''
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}

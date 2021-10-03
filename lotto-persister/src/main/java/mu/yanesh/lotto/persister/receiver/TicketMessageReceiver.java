@@ -30,7 +30,7 @@ public class TicketMessageReceiver {
     }
 
     private void processMessage(final String jsonMessage) throws JsonProcessingException {
-        final Ticket ticket = objectMapper.readValue(jsonMessage, Ticket.class);
+        Ticket ticket = objectMapper.readValue(jsonMessage, Ticket.class);
         ticketDataRepository.save(ticket);
         log.info("Persisted data to mongo");
     }

@@ -19,4 +19,7 @@ messaging:
 extractor:
     scheduler:
         cron: 0 0 * * THU,SUN
-        launch-on-startup: false
+        launch-on-startup: true
+
+server:
+    port: 8080

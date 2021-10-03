@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -66,7 +67,8 @@ public class Extractor implements IExtractor {
                 .map(Integer::valueOf)
                 .collect(Collectors.toList());
 
-        return new Ticket(resultats.get(0), resultats.get(1), resultats.get(2), resultats.get(3), resultats.get(4),
+        return new Ticket(resultDate.format(DateTimeFormatter.ISO_DATE), resultats.get(0), resultats.get(1), resultats.get(2),
+                resultats.get(3), resultats.get(4),
                 resultats.get(5), resultDate);
     }
 

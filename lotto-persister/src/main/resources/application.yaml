@@ -7,3 +7,6 @@ spring:
 messaging:
   ticket-receiver:
     queue-name: VirtualTopic.mu.yanesh.messaging.ticket.extractor.message
+
+server:
+  port: 8100

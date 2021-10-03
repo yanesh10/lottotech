@@ -11,12 +11,13 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Document(collection = "raw_tirage")
 public class Ticket {
+    @Id
+    private final String id;
     private final int number1;
     private final int number2;
     private final int number3;
     private final int number4;
     private final int number5;
     private final int number6;
-    @Id
     private final LocalDate tirageDate;
 }
