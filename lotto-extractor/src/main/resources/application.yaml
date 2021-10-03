@@ -17,6 +17,9 @@ messaging:
         queue-name: VirtualTopic.mu.yanesh.messaging.ticket.extractor.message
         
 extractor:
+    extract:
+        weekends: true
+        weekdays: true
     scheduler:
         cron: 0 0 * * THU,SUN
         launch-on-startup: true
