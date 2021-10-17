@@ -9,17 +9,18 @@ api:
         
 lottotech:
     tirage:
-        url: https://loterienationale.mu/fr/tirages-et-archives
+        url: https://loterienationale.mu/en/tirages-et-archives
         param: field_date_du_tirage_value[value][date]
+    extractor:
+        extract:
+            weekends: true
+            weekdays: true
 
 messaging:
     ticket-publisher:
         queue-name: VirtualTopic.mu.yanesh.messaging.ticket.extractor.message
-        
+
 extractor:
-    extract:
-        weekends: true
-        weekdays: true
     scheduler:
         cron: 0 0 * * THU,SUN
         launch-on-startup: true
