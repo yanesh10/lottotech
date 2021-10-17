@@ -7,6 +7,7 @@ import mu.yanesh.lotto.extractor.utils.CalendarUtils;
 import mu.yanesh.lotto.library.models.Ticket;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -58,6 +59,7 @@ public class Extractor implements IExtractor {
 
     @Override
     public void extract() {
+        log.info("******* EXTRACTION - START ******");
         List<LocalDate> dates = new ArrayList<>();
         if (extractWeekend) {
             dates.addAll(CalendarUtils.getWeekendsTirage(2009));
@@ -66,12 +68,19 @@ public class Extractor implements IExtractor {
         if (extractWeekdays) {
             dates.addAll(CalendarUtils.getWeekDaysTirage(2018));
         }
-        dates.stream().map(this::getTirage).forEach(publisher::publish);
+        dates.stream().map(this::getTirage).filter(Objects::nonNull).forEach(publisher::publish);
+        log.info("******* EXTRACTION - END ******");
     }
 
     private Ticket getResult(Document doc, LocalDate resultDate) {
+        Element numGagnats = doc.getElementById(NUM_GAGNANTS);
+        if (Objects.isNull(numGagnats)) {
+            log.warn("No tirage for {}", resultDate.toString());
+            return null;
+        }
+
         List<Integer> resultats = Arrays
-                .stream(Objects.requireNonNull(doc.getElementById(NUM_GAGNANTS))
+                .stream(Objects.requireNonNull(numGagnats)
                         .childNodes().get(0)
                         .toString()
                         .replace("\n", "")
