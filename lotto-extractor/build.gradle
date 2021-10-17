@@ -35,6 +35,7 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.mockito:mockito-inline:2.13.0'
+    testImplementation 'mu.yanesh:lotto-library:1.0.0'
     testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
