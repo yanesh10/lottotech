@@ -23,12 +23,12 @@ public class TirageController {
     private final ITirageService tirageService;
 
     @GetMapping("full")
-    public ResponseEntity<List<Ticket>> getAllResults(){
+    public ResponseEntity<List<Ticket>> getAllResults() {
         return ResponseEntity.ok(tirageService.getAllTickets());
     }
 
     @GetMapping("search/{resultDate}")
-    public ResponseEntity<Ticket> findByDate(LocalDate resultDate){
+    public ResponseEntity<Ticket> findByDate(LocalDate resultDate) {
         return ResponseEntity.ok(tirageService.findTicket(resultDate).orElseThrow(NoDataFoundException::new));
     }
 }

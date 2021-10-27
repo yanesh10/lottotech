@@ -15,14 +15,14 @@ import java.util.Optional;
 @Slf4j
 @AllArgsConstructor
 @Service
-public class TirageService implements ITirageService{
+public class TirageService implements ITirageService {
 
     private final TicketDataRepository ticketDataRepository;
 
     public static final String COLLECTION_NAME = "raw_tirage";
 
     @Override
-    public List<Ticket> getAllTickets(){
+    public List<Ticket> getAllTickets() {
         return ticketDataRepository.findAll(Ticket.class, COLLECTION_NAME);
     }
 
