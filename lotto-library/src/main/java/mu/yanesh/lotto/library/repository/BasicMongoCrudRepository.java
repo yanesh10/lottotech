@@ -8,6 +8,7 @@ import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -39,6 +40,17 @@ public class BasicMongoCrudRepository<V> implements MongoCrudRepository<V> {
     @Override
     public Optional<V> findOne(Query query, Class<V> entityType) {
         V result = mongoTemplate.findOne(query, entityType);
+        return Optional.ofNullable(result);
+    }
+
+    @Override
+    public List<V> findAll(Class<V> entityType, String collectionName) {
+        return mongoTemplate.findAll(entityType, collectionName);
+    }
+
+    @Override
+    public Optional<List<V>> findAll(Query query, Class<V> entityType) {
+        List<V> result = mongoTemplate.find(query, entityType);
         return Optional.ofNullable(result);
     }
 }
