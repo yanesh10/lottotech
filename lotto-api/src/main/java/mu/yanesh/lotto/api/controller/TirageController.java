@@ -3,9 +3,8 @@ package mu.yanesh.lotto.api.controller;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mu.yanesh.lotto.api.exception.NoDataFoundException;
-import mu.yanesh.lotto.api.service.ITirageService;
+import mu.yanesh.lotto.api.service.TirageService;
 import mu.yanesh.lotto.library.models.Ticket;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +19,7 @@ import java.util.List;
 @RequestMapping("api/${api.version}/tirage/")
 public class TirageController {
 
-    private final ITirageService tirageService;
+    private final TirageService tirageService;
 
     @GetMapping("full")
     public ResponseEntity<List<Ticket>> getAllResults() {
