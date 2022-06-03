@@ -39,7 +39,13 @@ public class TirageController {
     @GetMapping("frequently")
     public ResponseEntity<List<Integer>> frequentNumber(@RequestParam(required = false) Integer limit,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateLimit) {
-        return ResponseEntity.ok(tirageService.frequentNumber(Optional.ofNullable(limit).orElse(6), dateLimit));
+        return ResponseEntity.ok(tirageService.frequentNumber(Optional.ofNullable(limit).orElse(6), dateLimit, true));
+    }
+
+    @GetMapping("leastFrequently")
+    public ResponseEntity<List<Integer>> leastFrequentNumber(@RequestParam(required = false) Integer limit,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateLimit) {
+        return ResponseEntity.ok(tirageService.frequentNumber(Optional.ofNullable(limit).orElse(6), dateLimit, false));
     }
 
     @GetMapping("play")

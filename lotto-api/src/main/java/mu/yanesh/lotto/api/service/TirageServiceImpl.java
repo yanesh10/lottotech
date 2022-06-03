@@ -39,7 +39,7 @@ public class TirageServiceImpl implements TirageService {
     }
 
     @Override
-    public List<Integer> frequentNumber(int limit, LocalDate dateLimit) {
+    public List<Integer> frequentNumber(int limit, LocalDate dateLimit, boolean reverse) {
         List<Ticket> ticketList = getTicketList(dateLimit);
         HashMap<Integer, Integer> mapCount = generateMap();
         for (Ticket ticket : ticketList) {
@@ -53,20 +53,27 @@ public class TirageServiceImpl implements TirageService {
 
         List<Map.Entry<Integer, Integer>> list = new LinkedList<>(mapCount.entrySet());
         Collections.sort(list, Map.Entry.comparingByValue());
-        Collections.reverse(list);
+        if (reverse) {
+            Collections.reverse(list);
+        }
         return list.stream().limit(limit).map(Map.Entry::getKey).sorted().collect(Collectors.toList());
     }
 
     @Override
+    public List<Integer> leastFrequentNumber(int limit, LocalDate dateLimit) {
+        return frequentNumber(limit, dateLimit, false);
+    }
+
+    @Override
     public List<Integer> getRandomNumber() {
-        List<Integer> numbers = frequentNumber(10, null);
+        List<Integer> numbers = frequentNumber(10, null, true);
         Collections.shuffle(numbers);
         return numbers.stream().limit(6).sorted().collect(Collectors.toList());
     }
 
     private List<Ticket> getTicketList(LocalDate dateLimit) {
         List<Ticket> ticketList = getAllTickets();
-        if(Objects.nonNull(dateLimit)){
+        if (Objects.nonNull(dateLimit)) {
             ticketList = getAllTickets().stream().filter(ticket -> ticket.getTirageDate().isAfter(dateLimit)).collect(
                     Collectors.toList());
         }
@@ -80,7 +87,5 @@ public class TirageServiceImpl implements TirageService {
         }
         return mapCount;
     }
-
-
 
 }
