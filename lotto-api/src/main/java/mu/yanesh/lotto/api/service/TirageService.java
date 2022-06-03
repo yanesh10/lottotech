@@ -12,4 +12,7 @@ public interface TirageService {
 
     Optional<Ticket> findTicket(LocalDate resultDate);
 
+    List<Integer> frequentNumber(int limit, LocalDate dateLimit);
+
+    List<Integer> getRandomNumber();
 }

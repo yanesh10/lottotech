@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: lotto-api
+  profiles:
+    active: logger, mongodb-local
+    
+api:
+  version: 1.0
