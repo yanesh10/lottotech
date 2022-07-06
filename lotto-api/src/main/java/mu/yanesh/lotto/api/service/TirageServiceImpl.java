@@ -65,8 +65,8 @@ public class TirageServiceImpl implements TirageService {
     }
 
     @Override
-    public List<Integer> getRandomNumber() {
-        List<Integer> numbers = frequentNumber(10, null, true);
+    public List<Integer> getRandomNumber(int limit) {
+        List<Integer> numbers = frequentNumber(limit, null, true);
         Collections.shuffle(numbers);
         return numbers.stream().limit(6).sorted().collect(Collectors.toList());
     }

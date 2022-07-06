@@ -45,11 +45,11 @@ public class TirageController {
     @GetMapping("leastFrequently")
     public ResponseEntity<List<Integer>> leastFrequentNumber(@RequestParam(required = false) Integer limit,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateLimit) {
-        return ResponseEntity.ok(tirageService.frequentNumber(Optional.ofNullable(limit).orElse(6), dateLimit, false));
+        return ResponseEntity.ok(tirageService.leastFrequentNumber(Optional.ofNullable(limit).orElse(6), dateLimit));
     }
 
     @GetMapping("play")
-    public ResponseEntity<List<Integer>> getRandomNumber() {
-        return ResponseEntity.ok(tirageService.getRandomNumber());
+    public ResponseEntity<List<Integer>> getRandomNumber(@RequestParam(required = false) Integer limit) {
+        return ResponseEntity.ok(tirageService.getRandomNumber(Optional.ofNullable(limit).orElse(10)));
     }
 }

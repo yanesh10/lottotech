@@ -16,5 +16,5 @@ public interface TirageService {
 
     List<Integer> leastFrequentNumber(int limit, LocalDate dateLimit);
 
-    List<Integer> getRandomNumber();
+    List<Integer> getRandomNumber(int limit);
 }
