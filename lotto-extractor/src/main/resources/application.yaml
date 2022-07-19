@@ -2,7 +2,7 @@ spring:
     application:
         name: lottotech-extractor
     profiles:
-        active: activemq, logger
+        active: activemq, logger, mongodb-local
         
 api:
     version: 1.0
@@ -19,6 +19,8 @@ lottotech:
 messaging:
     ticket-publisher:
         queue-name: VirtualTopic.mu.yanesh.messaging.ticket.extractor.message
+    extraction-publisher:
+        queue-name: VirtualTopic.mu.yanesh.messaging.extraction.log.extractor.message
 
 extractor:
     scheduler:

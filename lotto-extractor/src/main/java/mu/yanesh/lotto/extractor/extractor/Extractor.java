@@ -2,18 +2,30 @@ package mu.yanesh.lotto.extractor.extractor;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import mu.yanesh.lotto.extractor.exception.MissingExtractionLogException;
 import mu.yanesh.lotto.extractor.publish.TicketMessagePublisher;
 import mu.yanesh.lotto.extractor.utils.CalendarUtils;
+import mu.yanesh.lotto.library.models.ExtractionLog;
 import mu.yanesh.lotto.library.models.Ticket;
+import mu.yanesh.lotto.library.repository.ExtractionLogDataRepository;
+import mu.yanesh.lotto.library.repository.IExtractionLogDataRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.convert.DurationUnit;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,6 +54,8 @@ public class Extractor implements IExtractor {
     @Value("${lottotech.extractor.extract.weekdays}")
     private boolean extractWeekdays;
 
+    private final ExtractionLogDataRepository extractionLogDataRepository;
+
     private final TicketMessagePublisher publisher;
 
     @Override
@@ -58,17 +72,43 @@ public class Extractor implements IExtractor {
     }
 
     @Override
-    public void extract() {
+    public void extract(boolean full) {
         log.info("******* EXTRACTION - START ******");
+        LocalTime startTime = LocalTime.now();
         List<LocalDate> dates = new ArrayList<>();
-        if (extractWeekend) {
-            dates.addAll(CalendarUtils.getWeekendsTirage(2009));
+        if (full) {
+            if (extractWeekend) {
+                dates.addAll(CalendarUtils.getWeekendsTirage(2009));
+            }
+
+            if (extractWeekdays) {
+                dates.addAll(CalendarUtils.getWeekDaysTirage(2018));
+            }
+        } else {
+            ExtractionLog extractionLog = extractionLogDataRepository.getLatestExtractionLog().orElse(null);
+            if (Objects.isNull(extractionLog)) {
+                log.warn("No extraction log found. Please run the full");
+                throw new MissingExtractionLogException("No extraction log. Please run a full extraction instead");
+            }
+            if (extractWeekend) {
+                dates.addAll(CalendarUtils.getWeekendsTirageByStartDate(extractionLog.getDateTime().toLocalDate()));
+            }
+
+            if (extractWeekdays) {
+                dates.addAll(CalendarUtils.getWeekDaysTirageByStartDate(extractionLog.getDateTime().toLocalDate()));
+            }
+            if (CollectionUtils.isEmpty(dates)) {
+                log.info("Latest tirage is already present");
+                return;
+            }
         }
 
-        if (extractWeekdays) {
-            dates.addAll(CalendarUtils.getWeekDaysTirage(2018));
-        }
-        dates.stream().map(this::getTirage).filter(Objects::nonNull).forEach(publisher::publish);
+        dates.parallelStream().map(this::getTirage).filter(Objects::nonNull).forEach(publisher::publish);
+
+        ExtractionLog extractionLog = new ExtractionLog(null, ZonedDateTime.now());
+        extractionLogDataRepository.save(extractionLog);
+        Duration duration = Duration.between(startTime, LocalTime.now());
+        log.info("Extracted {} with an Execution time: {}", dates.size(), duration.get(ChronoUnit.SECONDS));
         log.info("******* EXTRACTION - END ******");
     }
 

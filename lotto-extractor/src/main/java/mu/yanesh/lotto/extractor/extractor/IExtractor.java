@@ -8,6 +8,6 @@ public interface IExtractor {
 
     Ticket getTirage(LocalDate date);
 
-    void extract();
+    void extract(boolean full);
 
 }

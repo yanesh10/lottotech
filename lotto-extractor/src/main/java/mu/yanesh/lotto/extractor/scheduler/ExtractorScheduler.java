@@ -25,7 +25,7 @@ public class ExtractorScheduler {
             log.info("****Launching extractor****");
             log.info("Starting Date and Time: {}", LocalDateTime.now());
 
-            extractor.extract();
+            extractor.extract(true);
 
             log.info("****Completed extractor****");
         }

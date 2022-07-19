@@ -13,6 +13,11 @@ import java.util.Arrays;
 @Slf4j
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(MissingExtractionLogException.class)
+    public ResponseEntity<ApiError> handleException(MissingExtractionLogException e) {
+        return ResponseEntity.badRequest().body(ApiError.builder().errorMessage(e.getMessage()).dateTime(LocalDateTime.now()).build());
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleException(Exception e) {
         log.error(Arrays.toString(e.getStackTrace()));

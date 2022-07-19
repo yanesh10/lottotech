@@ -39,4 +39,26 @@ public class CalendarUtils {
                 .collect(Collectors.toList());
     }
 
+    /*
+     * All weekdays (Wed) of the given date
+     */
+    public static List<LocalDate> getWeekDaysTirageByStartDate(LocalDate startDate) {
+
+        return startDate
+                .datesUntil(LocalDate.now())
+                .filter(date -> date.getDayOfWeek() == DayOfWeek.WEDNESDAY && date.isAfter(FIRST_WEEKDAY_TIRAGE_DATE))
+                .collect(Collectors.toList());
+    }
+
+    /*
+     * All weekends (Sat) of the given date
+     */
+    public static List<LocalDate> getWeekendsTirageByStartDate(LocalDate startDate) {
+
+        return startDate
+                .datesUntil(LocalDate.now())
+                .filter(date -> date.getDayOfWeek() == DayOfWeek.SATURDAY && date.isAfter(FIRST_WEEKEND_TIRAGE_DATE))
+                .collect(Collectors.toList());
+    }
+
 }
