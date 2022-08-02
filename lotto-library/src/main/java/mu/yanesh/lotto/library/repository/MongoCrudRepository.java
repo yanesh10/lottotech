@@ -15,4 +15,6 @@ public interface MongoCrudRepository<V> {
 
     List<V> findAll(Class<V> entityType, String collectionName);
     Optional<List<V>> findAll(Query query, Class<V> entityType);
+
+    void deleteAll(String collectionName);
 }

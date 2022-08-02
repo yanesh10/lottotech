@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: mongodb-local, activemq
+
+messaging:
+  stats-publisher:
+    queue-name: VirtualTopic.mu.yanesh.messaging.stats.message
+  stats-publisher-clear:
+    queue-name: VirtualTopic.mu.yanesh.messaging.stats.clear.message

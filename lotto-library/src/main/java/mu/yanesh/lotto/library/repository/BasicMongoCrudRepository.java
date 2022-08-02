@@ -3,7 +3,6 @@ package mu.yanesh.lotto.library.repository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mu.yanesh.lotto.library.exception.MongoDataAccessException;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
@@ -51,6 +50,11 @@ public class BasicMongoCrudRepository<V> implements MongoCrudRepository<V> {
     @Override
     public Optional<List<V>> findAll(Query query, Class<V> entityType) {
         List<V> result = mongoTemplate.find(query, entityType);
-        return Optional.ofNullable(result);
+        return Optional.of(result);
+    }
+
+    @Override
+    public void deleteAll(String collectionName) {
+        mongoTemplate.dropCollection(collectionName);
     }
 }
