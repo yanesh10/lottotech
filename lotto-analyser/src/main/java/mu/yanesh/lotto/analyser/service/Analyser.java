@@ -31,43 +31,13 @@ public class Analyser implements IAnalyser {
         BigInteger totalCount = BigInteger.valueOf(ticketList.size()).multiply(BigInteger.valueOf(combinations.size()));
         log.info("Number of tickets retrieved: {}", ticketList.size());
 
-        statsMessagePublisher.clear("clear");
-
         ticketList.parallelStream().forEach(ticket -> combinations.parallelStream().forEach(combination -> {
             log.info("{} of {}", counter.get(), totalCount);
             log.info("Percentage completed: {}" ,
                     BigInteger.valueOf(counter.get()).divide(totalCount).multiply(BigInteger.valueOf(100)));
             int count = 0;
             List<Integer> numberPresent = new ArrayList<>();
-            if (combination.contains(ticket.getNumber1())) {
-                count++;
-                numberPresent.add(ticket.getNumber1());
-            }
-
-            if (combination.contains(ticket.getNumber2())) {
-                count++;
-                numberPresent.add(ticket.getNumber2());
-            }
-
-            if (combination.contains(ticket.getNumber3())) {
-                count++;
-                numberPresent.add(ticket.getNumber3());
-            }
-
-            if (combination.contains(ticket.getNumber4())) {
-                count++;
-                numberPresent.add(ticket.getNumber4());
-            }
-
-            if (combination.contains(ticket.getNumber5())) {
-                count++;
-                numberPresent.add(ticket.getNumber5());
-            }
-
-            if (combination.contains(ticket.getNumber6())) {
-                count++;
-                numberPresent.add(ticket.getNumber6());
-            }
+            count = checkCount(ticket, combination, count, numberPresent);
             if (count >= 2) {
                 Stats stats = new Stats();
                 stats.setDate(new Date());
@@ -78,5 +48,38 @@ public class Analyser implements IAnalyser {
             }
             counter.getAndIncrement();
         }));
+    }
+
+    private int checkCount(Ticket ticket, List<Integer> combination, int count, List<Integer> numberPresent) {
+        if (combination.contains(ticket.getNumber1())) {
+            count++;
+            numberPresent.add(ticket.getNumber1());
+        }
+
+        if (combination.contains(ticket.getNumber2())) {
+            count++;
+            numberPresent.add(ticket.getNumber2());
+        }
+
+        if (combination.contains(ticket.getNumber3())) {
+            count++;
+            numberPresent.add(ticket.getNumber3());
+        }
+
+        if (combination.contains(ticket.getNumber4())) {
+            count++;
+            numberPresent.add(ticket.getNumber4());
+        }
+
+        if (combination.contains(ticket.getNumber5())) {
+            count++;
+            numberPresent.add(ticket.getNumber5());
+        }
+
+        if (combination.contains(ticket.getNumber6())) {
+            count++;
+            numberPresent.add(ticket.getNumber6());
+        }
+        return count;
     }
 }
