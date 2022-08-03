@@ -6,3 +6,10 @@ spring:
     
 api:
   version: 1.0
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${eureka_url:http://localhost:8765/eureka}
+  instance:
+    instance-id: ${spring.application.name}:${instanceId:${random.value}}
