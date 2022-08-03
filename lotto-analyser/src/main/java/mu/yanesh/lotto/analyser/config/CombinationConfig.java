@@ -21,7 +21,6 @@ public class CombinationConfig {
     @Bean
     public List<List<Integer>> combinations(@Autowired Environment env) {
         log.info("Creating combination bean");
-        List<List<Integer>> combinations = new ArrayList<>();
         List<Integer> numbers = new ArrayList<>();
         for (int i = 1; i <= 40; i++) {
             numbers.add(i);
@@ -30,9 +29,8 @@ public class CombinationConfig {
                 Optional.ofNullable(env.getProperty("combinations", Integer.class))
                         .orElseThrow(InvalidCombinationValue::new);
 
-        combinations.addAll(Generator.combination(numbers).simple(combination).stream().toList());
-
-        log.info("Combination bean created with {}", combinations.size());
+        List<List<Integer>> combinations = (Generator.combination(numbers).simple(combination).stream().toList());
+        log.info("Combination bean created with {} ", combinations.size());
 
         return combinations;
     }
