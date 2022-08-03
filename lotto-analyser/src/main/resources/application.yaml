@@ -7,3 +7,10 @@ messaging:
     queue-name: VirtualTopic.mu.yanesh.messaging.stats.message
   stats-publisher-clear:
     queue-name: VirtualTopic.mu.yanesh.messaging.stats.clear.message
+    
+lotto:
+  api:
+    base-url: http://localhost:9000/api/1.0
+
+server:
+  port: 0

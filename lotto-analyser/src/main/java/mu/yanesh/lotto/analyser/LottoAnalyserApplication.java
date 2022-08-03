@@ -5,12 +5,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import static java.lang.System.exit;
 
 @SpringBootApplication
-@ComponentScan("mu.yanesh.lotto")
+@EnableFeignClients
+@ComponentScan(basePackages = "mu.yanesh.lotto",
+        excludeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION, value=Repository.class)})
 public class LottoAnalyserApplication implements CommandLineRunner {
 
     @Autowired

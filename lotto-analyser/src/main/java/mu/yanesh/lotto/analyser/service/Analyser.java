@@ -2,10 +2,10 @@ package mu.yanesh.lotto.analyser.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import mu.yanesh.lotto.analyser.client.LottoApiClient;
 import mu.yanesh.lotto.analyser.publish.StatsMessagePublisher;
 import mu.yanesh.lotto.library.models.Stats;
 import mu.yanesh.lotto.library.models.Ticket;
-import mu.yanesh.lotto.library.repository.TicketDataRepository;
 import org.springframework.stereotype.Component;
 
 import java.math.BigInteger;
@@ -20,20 +20,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Analyser implements IAnalyser {
 
     private final List<List<Integer>> combinations;
-
-    private final TicketDataRepository ticketDataRepository;
-
     private final StatsMessagePublisher statsMessagePublisher;
-
-    public static final String COLLECTION_NAME = "raw_tirage";
+    private final LottoApiClient lottoApiClient;
 
     @Override
     public void analysis() {
         log.info("Analysing tirage data");
         AtomicInteger counter = new AtomicInteger();
-        List<Ticket> ticketList = ticketDataRepository.findAll(Ticket.class, COLLECTION_NAME);
+        List<Ticket> ticketList = lottoApiClient.findAll();
         BigInteger totalCount = BigInteger.valueOf(ticketList.size()).multiply(BigInteger.valueOf(combinations.size()));
-        log.info("Number of tickets retrived: {}", ticketList.size());
+        log.info("Number of tickets retrieved: {}", ticketList.size());
 
         statsMessagePublisher.clear("clear");
 
