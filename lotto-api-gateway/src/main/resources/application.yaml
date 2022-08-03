@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: lotto-api-gateway
+  cloud:
+    gateway:
+      routes:
+        id: lotto-api
+        url: http://localhost:8765/eureka
