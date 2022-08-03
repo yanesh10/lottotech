@@ -8,6 +8,10 @@ spring:
           uri: lb://lotto-api
           predicates:
             - Path=/api/1.0/tirage/**
+        - id: lotto-extractor
+          uri: lb://lotto-extractor
+          predicates:
+            - Path=/api/1.0/extractor/**
         
 server:
   port: 9000
