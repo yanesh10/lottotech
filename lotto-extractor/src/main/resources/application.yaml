@@ -1,6 +1,6 @@
 spring:
     application:
-        name: lottotech-extractor
+        name: lotto-extractor
     profiles:
         active: activemq, logger, mongodb-local
         
