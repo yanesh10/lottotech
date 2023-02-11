@@ -1,7 +1,5 @@
 package mu.yanesh.lotto.analyser.config;
 
-import lombok.AllArgsConstructor;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import mu.yanesh.lotto.analyser.exception.InvalidCombinationValue;
 import org.paukov.combinatorics3.Generator;
@@ -17,7 +15,7 @@ import java.util.Optional;
 @Configuration
 @Slf4j
 public class CombinationConfig {
-
+    public static final String LOTTO_COMBINATIONS = "lotto.combinations";
     @Bean
     public List<List<Integer>> combinations(@Autowired Environment env) {
         log.info("Creating combination bean");
@@ -26,7 +24,7 @@ public class CombinationConfig {
             numbers.add(i);
         }
         int combination =
-                Optional.ofNullable(env.getProperty("combinations", Integer.class))
+                Optional.ofNullable(env.getProperty(LOTTO_COMBINATIONS, Integer.class))
                         .orElseThrow(InvalidCombinationValue::new);
 
         List<List<Integer>> combinations = (Generator.combination(numbers).simple(combination).stream().toList());
